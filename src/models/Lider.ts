@@ -1,17 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Banda } from './Banda';
-@Entity(`${process.env.DB_NAME}.LIDER`)
+@Entity(`${process.env.ARQ_DB_NAME}.LIDER`)
 export class Lider {
 
     @PrimaryGeneratedColumn({ name: "LIDER_ID" })
-    public lider_id!: number;
+    public id!: number;
 
     @Column({ name: "LIDER_NOMBRE" })
-    public lider_nombre!: string;
+    public name!: string;
 
     @Column({ name: "LIDER_APODO" })
-    public lider_apodo!: string;
+    public nickname!: string;
 
-    @OneToMany(type => Banda, banda => banda.lider )
-    public banda!: Banda[];
+    @OneToMany(() => Banda, band => band.leader )
+    public band!: Banda[];
 }

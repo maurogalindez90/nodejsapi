@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Connection, createConnection } from "typeorm";
-import { Banda } from "../model/Banda";
-import { Lider } from "../model/Lider";
+import { Banda } from "../models/Banda";
+import { Lider } from "../models/Lider";
 
 
 export class Repository {
