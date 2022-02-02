@@ -1,4 +1,5 @@
 import { Repository } from "../../../connection/connection";
+import { Banda } from "../../../models/Banda";
 import { SqlClient } from "../sqlClient";
 import { QueryBuilder } from "../utils/queryBuilder";
 
@@ -12,25 +13,23 @@ export class SqlClientImpl implements SqlClient {
         const connection = await Repository.getConnection();
         const entityRepository = connection.getRepository(this.entity);
         let query = entityRepository.createQueryBuilder(this.entity);
-        query = QueryBuilder.utilizeParameters(this.entity, query);
-        // query = query.leftJoinAndSelect('Banda.leader', 'leader')
-
-        const response = query.getManyAndCount();
-        return response;
+        query = QueryBuilder.buildQuery(this.entity, query);
+        return await query.getManyAndCount();
     }
 
     public findById = async (id: number) => {
         const connection = await Repository.getConnection();
         const entityRepository = connection.getRepository(this.entity);
         let query = entityRepository.createQueryBuilder(this.entity);
-        query = query.where('Banda.id = :id', {id: id});
-        query = query.leftJoinAndSelect('Banda.leader', 'leader');
-        return await query.getOne();
+        query = QueryBuilder.buildQuery(this.entity, query, {id});
+        const response = await query.getOneOrFail();
+        console.log(`la respuesta a la ejecucion de la query es: `,response);
+        return response;
     }
 
-    public storeBand = async (band: any) => {
+    public storeBand = async (band: Banda) => {
         const connection = await Repository.getConnection();
         const entityRepository = connection.getRepository(this.entity);
-        return 'pepe';
+        return await entityRepository.save(band);
     }
 }

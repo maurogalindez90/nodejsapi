@@ -1,21 +1,16 @@
 import { Banda } from "../../models/Banda";
-import { Lider } from "../../models/Lider";
 
 export class BandRequestDto {
     
-    public id: number;
     public name: string;
-    public leader: Lider;
+    public password: number;
 
-    constructor (bandId: number, bandName: string, bandLeader: Lider) { 
-        this.id = bandId;
-        this.name = bandName;
-        this.leader = bandLeader;
+    constructor (band: any) { 
+        this.name = band.bandName;
+        this.password = band.password;
     }
 
-    public static bandToDto = (band: Banda) => new BandRequestDto(band.id, band.name, band.leader);
-
-    public static bandsArrayToDto = (bands: Array<Banda>) => bands.map(band => this.bandToDto(band));
+    public static toBand = (band: BandRequestDto) => new Banda(band.name, band.password);
     
 }
 

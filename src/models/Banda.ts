@@ -16,4 +16,9 @@ export class Banda {
     @ManyToOne(() => Lider, leader => leader.band)
     @JoinColumn({name: 'BANDA_LIDER', referencedColumnName: 'id'})
     public leader!: Lider;
+
+    constructor (name: string, password: number) {
+        this.name = name;
+        this.password = password;
+    }
 }

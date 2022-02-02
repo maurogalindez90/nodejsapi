@@ -10,10 +10,10 @@ export class BandRepositoryImpl implements BandRepository {
         return await this.sqlClientBanda.findAll();
     }
 
-    public getBandById = (bandId: number) : Banda => this.sqlClientBanda.findById(bandId);
+    public getBandById = async (bandId: number) : Promise<Banda> => await this.sqlClientBanda.findById(bandId);
     
 
-    public storeBand = async (band: any) => {
+    public storeBand = async (band: Banda) => {
         return await this.sqlClientBanda.storeBand(band);
     }
 }

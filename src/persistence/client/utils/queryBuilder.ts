@@ -2,21 +2,15 @@ export class QueryBuilder {
 
     constructor() {}
 
-    public static extractParameters = (parameters: any) => {
-        
-        // return this.utilizeParameters()
-    }
-
-    public static utilizeParameters = (entity: string, query: any, parameters?: any) => {
-        if (parameters) this.extractParameters(parameters);
+    public static buildQuery = (entity: string, query: any, parameters?: any) => {
 
         switch (entity) {
             case 'Banda': 
-            query = query.leftJoinAndSelect('Banda.leader', 'leader')
+                query = query.leftJoinAndSelect('Banda.leader', 'leader');
+                if (parameters?.id) query = query.where('Banda.id = :id', {id: parameters.id});
             break;
         }
 
-        console.log('FALAFEL SUIZO');
         return query;
     }
 }

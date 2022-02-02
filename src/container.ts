@@ -1,7 +1,7 @@
 import { createContainer, asClass, asFunction } from 'awilix';
 import express = require('express');
 import { scopePerRequest } from 'awilix-express'
-import { BandImplService } from './services/impl/bandImpl.service';
+import { BandServiceImpl } from './services/impl/bandServiceImpl';
 import { BandRepositoryImpl } from './persistence/impl/bandRepositoryImpl';
 import { SqlClientImpl } from './persistence/client/impl/sqlClientImpl';
 export default (app: express.Application) => {
@@ -12,7 +12,7 @@ export default (app: express.Application) => {
     container.register({
 
         // services
-        bandService: asClass(BandImplService).scoped(),
+        bandService: asClass(BandServiceImpl).scoped(),
 
         // repositories
         bandRepository: asClass(BandRepositoryImpl).scoped(),
