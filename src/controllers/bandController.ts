@@ -1,6 +1,7 @@
-import { GET, POST, PUT, route } from "awilix-express";
+import { DELETE, GET, POST, PUT, route } from "awilix-express";
 import { Response, Request } from "express";
-import { ApplicationException } from "../errors/applicationException";
+import { NotFoundEntityError } from "../errors/notFoundEntityError";
+import { ValidationError } from "../errors/validationError";
 import { Banda } from "../models/Banda";
 import { BandService } from "../services/bandService";
 import { BaseController } from "./baseController";
@@ -10,7 +11,7 @@ import { BandResponseDto } from "./dto/bandResponseDto";
 @route('/bands')
 export class BandController extends BaseController {
     constructor (private readonly bandService: BandService) {
-        super() 
+        super();
     }
 
     @GET()
@@ -18,8 +19,8 @@ export class BandController extends BaseController {
         try {
             const bands = await this.bandService.getBands();
             this.sendSuccess(res, [BandResponseDto.bandsArrayToDto(bands[0]), bands[1]]);
-        } catch (e) {
-            this.errorHandler(e, res);
+        } catch (e: any) {
+            this.sendInternalError(res, e.message, '500');
         }
     }
 
@@ -30,10 +31,13 @@ export class BandController extends BaseController {
             const bandId: number = parseInt(req.params.id);
             const band = await this.bandService.getBandById(bandId);
             this.sendSuccess(res, (BandResponseDto.bandToDto(band)));
-        } catch (e) {
-            this.errorHandler(e, res);
+        } catch (e: any) {
+            if (e instanceof NotFoundEntityError) {
+                this.sendNotFoundReq(res, e.message, '404');
+            } else {
+                this.sendInternalError(res, e.message, '500');
+            }
         }
-        
     }
 
     @POST()
@@ -41,9 +45,21 @@ export class BandController extends BaseController {
         try {
             const response = await this.bandService.storeBand(BandRequestDto.toBand(req.body));
             this.sendSuccess(res, BandResponseDto.bandToDto(response));
-        } catch (e) {
-            this.errorHandler(e, res);
+        } catch (e: any) {
+            if (e instanceof ValidationError) {
+                this.sendBadReq(res, e.message, '400');
+            } else {
+                this.sendInternalError(res, e.message, '500');
+            }
         }
-        
+    }
+
+    @DELETE()
+    public deleteBand = async (req: Request, res: Response) => {
+        try {
+
+        } catch (e) {
+            
+        }
     }
 }

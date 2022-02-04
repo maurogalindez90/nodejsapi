@@ -22,7 +22,7 @@ export class SqlClientImpl implements SqlClient {
         const entityRepository = connection.getRepository(this.entity);
         let query = entityRepository.createQueryBuilder(this.entity);
         query = QueryBuilder.buildQuery(this.entity, query, {id});
-        const response = await query.getOneOrFail();
+        const response = await query.getOne();
         console.log(`la respuesta a la ejecucion de la query es: `,response);
         return response;
     }

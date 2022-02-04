@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { ApplicationException } from "../errors/applicationException";
+import { NotFoundEntityError } from "../errors/notFoundEntityError";
 import { ErrorMessages } from "../errors/errorMessages";
 
 export abstract class BaseController {
@@ -9,26 +9,6 @@ export abstract class BaseController {
     private badRequest: string = "Bad Request";
     private notFound: string = "Not found";
     private internalError: string = "Internal Server Error";
-
-    errorHandler = (err: any, res: Response) => {
-        if (err instanceof ApplicationException) {
-            switch (err.message) {
-                case ErrorMessages.UNEXPECTED_ERROR:
-                    this.sendInternalError(res, err.message, '500')
-                    break;
-                    
-                case ErrorMessages.PASSWORD_LENGTH_VALIDATION_ERROR: 
-                    this.sendInvalidReq(res, err.message, '400');
-                    break;
-
-                case ErrorMessages.NOT_FOUND:
-                    this.sendNotFoundReq(res, err.message, '404');
-                    break;
-            }
-            res.status(400);
-            res.send(err);
-        }
-    }
 
     public sendCreate = (res: any, data?: any) => {
         res.status(201);
@@ -63,7 +43,7 @@ export abstract class BaseController {
         res.send(response);
     }
 
-    public sendInvalidReq = (res: any, message: string, code: string): void => {
+    public sendBadReq = (res: any, message: string, code: string): void => {
         let response: any = {};
         response.type = this.badRequest;
         response.message = message;
