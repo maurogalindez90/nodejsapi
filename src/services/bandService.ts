@@ -1,8 +1,11 @@
-import { Banda } from "../models/Banda";
+import { Banda } from "../domain/Banda";
 
 export interface BandService {
 
     getBands() : any;
     getBandById(bandId: number) : Promise<Banda>;
-    storeBand(band: any) : any;
+    updateBand(bandId: number, band: Banda) : void;
+    storeBand(band: Banda) : any;
+    deleteBand(bandId: number) : void;
+
 }

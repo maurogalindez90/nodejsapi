@@ -1,4 +1,4 @@
-import { Banda } from '../../models/Banda';
+import { Banda } from '../../domain/Banda';
 import { BandRepository } from '../bandRepository';
 import { SqlClient } from '../client/sqlClient';
 
@@ -10,10 +10,20 @@ export class BandRepositoryImpl implements BandRepository {
         return await this.sqlClientBanda.findAll();
     }
 
-    public getBandById = async (bandId: number) : Promise<Banda> => await this.sqlClientBanda.findById(bandId);
+    public getBandById = async (bandId: number) => {
+        return await this.sqlClientBanda.findById(bandId);
+    }
+
+    public updateBand = async (bandId: number, band: Banda) => {
+        return await this.sqlClientBanda.updateEntity(bandId, band);
+    }
     
 
     public storeBand = async (band: Banda) => {
-        return await this.sqlClientBanda.storeBand(band);
+        return await this.sqlClientBanda.storeEntity(band);
+    }
+
+    public deleteBand = async (bandId: number) => {
+        return await this.sqlClientBanda.deleteEntity(bandId);
     }
 }

@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Connection, createConnection } from "typeorm";
-import { Banda } from "../models/Banda";
-import { Lider } from "../models/Lider";
+import { Banda } from "../domain/Banda";
+import { Lider } from "../domain/Lider";
 
 
 export class Repository {
@@ -24,8 +24,6 @@ export class Repository {
         }
         return Repository.connection;
     }
-
-    public static getConnection = async () => await Repository.getInstace();
 
     public static getRepository = async (model: any) => {
         const conexion = await Repository.getInstace();

@@ -1,6 +1,9 @@
 export interface SqlClient {
 
-    findAll() : any;
-    findById(id: number) : any;
-    storeBand(band: any) : any;
+    findAll() : Promise<any[]>;
+    findPaginated() : Promise<any[]>;
+    findById(id: number) : Promise<any>;
+    updateEntity(id: number, entity: any) : Promise<boolean>;
+    storeEntity(entity: any) : Promise<any>;
+    deleteEntity(entityId: number) : Promise<boolean>;
 }

@@ -1,4 +1,4 @@
-import { Banda } from "../../models/Banda";
+import { Banda } from "../../domain/Banda";
 
 export class BandRequestDto {
     

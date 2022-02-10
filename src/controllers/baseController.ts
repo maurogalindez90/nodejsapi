@@ -1,7 +1,3 @@
-import { Response } from "express";
-import { NotFoundEntityError } from "../errors/notFoundEntityError";
-import { ErrorMessages } from "../errors/errorMessages";
-
 export abstract class BaseController {
 
     private unauthorized: string = "Unauthorized";

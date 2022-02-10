@@ -1,7 +1,9 @@
-import { Banda } from "../models/Banda";
+import { Banda } from "../domain/Banda";
 
 export interface BandRepository {
-    getBands() : any;
+    getBands() : Promise<Banda[]>;
     getBandById(bandId: number) : Promise<Banda>;
-    storeBand(band: Banda) : any;
+    updateBand(bandId: number, band: Banda) : Promise<boolean>;
+    storeBand(band: Banda) : Promise<Banda>;
+    deleteBand(bandId: number) : Promise<boolean>;
 }

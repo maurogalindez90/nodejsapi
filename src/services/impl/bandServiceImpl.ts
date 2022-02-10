@@ -1,47 +1,44 @@
 import { BandRepository } from "../../persistence/bandRepository";
 import { BandService } from "../bandService";
-import { Banda } from "../../models/Banda";
+import { Banda } from "../../domain/Banda";
 import { NotFoundEntityError } from "../../errors/notFoundEntityError";
-import { ErrorMessages } from "../../errors/errorMessages";
-import { ValidationError } from "../../errors/validationError";
+import { BandValidation } from "../validations/bandValidation";
 
 export class BandServiceImpl implements BandService {
 
     constructor( private readonly bandRepository: BandRepository) {}
     
     public getBands = async () => {
-        try {
-            const bands = await this.bandRepository.getBands();
-        } catch (e) {
-            throw new Error();
+        const bands = await this.bandRepository.getBands();
+        return bands;
+    }
+
+    public getBandById = async (bandId: number) => {
+        const band = await this.bandRepository.getBandById(bandId);
+        if (!band) {
+            throw new NotFoundEntityError(bandId, 'band');
+        } else {
+            return band;
         }
     }
 
-    public getBandById = async (bandId: number) : Promise<Banda> => {
-        try {
-            const band = await this.bandRepository.getBandById(bandId);
-            if (!band) {
-                throw new NotFoundEntityError(bandId, 'banda');
-            } else {
-                return band;
-            }
-            
-        } catch (e) {
-            throw e;
+    public updateBand = async (bandId: number, band: Banda) => {
+        if (BandValidation.validateBandUpdate(band)) {
+            const response = await this.bandRepository.updateBand(bandId, band);
+            if (!response) throw new NotFoundEntityError(bandId, 'banda');
         }
     }
 
+    
     public storeBand = async (band: Banda) => {
-        try { 
-            if (!band.password) {
-                throw new ValidationError(ErrorMessages.PASSWORD_MISSING_VALIDATION_ERROR);
-            } else if (band.password.toString().length <= 3) {
-                throw new ValidationError(ErrorMessages.PASSWORD_LENGTH_VALIDATION_ERROR);
-            } else {
-                return await this.bandRepository.storeBand(band);
-            }
-        } catch (e: any) {
-            throw e;
+        if (BandValidation.validateBandStore(band)) {
+            return await this.bandRepository.storeBand(band);
         }
     }
+
+    public deleteBand = async (bandId: number) => {
+        const response = await this.bandRepository.deleteBand(bandId);
+        if (!response) throw new NotFoundEntityError(bandId, 'banda');
+    }
+
 }

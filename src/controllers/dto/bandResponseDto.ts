@@ -1,5 +1,5 @@
-import { Banda } from "../../models/Banda";
-import { Lider } from "../../models/Lider";
+import { Banda } from "../../domain/Banda";
+import { Lider } from "../../domain/Lider";
 
 export class BandResponseDto {
     

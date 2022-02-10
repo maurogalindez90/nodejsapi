@@ -1,9 +1,10 @@
 import { createContainer, asClass, asFunction } from 'awilix';
 import express = require('express');
 import { scopePerRequest } from 'awilix-express'
-import { BandServiceImpl } from './services/impl/bandServiceImpl';
-import { BandRepositoryImpl } from './persistence/impl/bandRepositoryImpl';
-import { SqlClientImpl } from './persistence/client/impl/sqlClientImpl';
+import { BandServiceImpl } from '../services/impl/bandServiceImpl';
+import { BandRepositoryImpl } from '../persistence/impl/bandRepositoryImpl';
+import { SqlClientWrapper } from '../persistence/client/impl/sqlClientWrapper';
+
 export default (app: express.Application) => {
     const container = createContainer({
         injectionMode: 'CLASSIC'
@@ -26,5 +27,5 @@ export default (app: express.Application) => {
 }
 
 let getSqlClientInstance = (entity: string) => {
-    return new SqlClientImpl(entity);
+    return new SqlClientWrapper(entity);
 }
