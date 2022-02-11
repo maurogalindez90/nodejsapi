@@ -7,7 +7,9 @@ export class BandRepositoryImpl implements BandRepository {
     constructor (private readonly sqlClientBanda: SqlClient, private readonly sqlClientLider: SqlClient) {}
 
     public getBands = async () => {
-        return await this.sqlClientBanda.findAll();
+        const bands = await this.sqlClientBanda.findAll();
+        console.log(JSON.stringify(bands));
+        return bands;
     }
 
     public getBandById = async (bandId: number) => {

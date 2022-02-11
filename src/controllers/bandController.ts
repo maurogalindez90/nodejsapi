@@ -22,7 +22,7 @@ export class BandController extends BaseController {
     @GET()
     public getBands = async (req: Request, res: Response) => {
         try {
-            const bands = await this.bandService.getBands(null);
+            const bands = await this.bandService.getBands();
             this.sendSuccess(res, BandResponseDto.bandsArrayToDto(bands));
         } catch (e: any) {
             this.sendInternalError(res, e.message, this.statusInternalServerError);
