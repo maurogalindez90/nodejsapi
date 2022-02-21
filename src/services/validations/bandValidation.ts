@@ -1,13 +1,11 @@
-import { Banda } from "../../domain/Banda"
+import { BandRequestDto } from "../../controllers/dto/bandRequestDto";
 import { ValidationError } from "../../errors/validationError";
 
 export class BandValidation {
     
-    public static validateBandUpdate = (band: Banda) => {
-        return !band.password ? true : this.validateBandPasswordLength(band.password);
-    }
+    public static validateBandUpdate = (band: BandRequestDto) => !band.password ? true : this.validateBandPasswordLength(band.password);
 
-    public static validateBandStore = (band: Banda) => {
+    public static validateBandStore = (band: BandRequestDto) => {
         if (!band.password) {
             throw new ValidationError('A password must be included to create a band');
         } else {

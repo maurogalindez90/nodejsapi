@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
-import { Banda } from './Banda';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Banda } from './banda';
+
 @Entity(`${process.env.ARQ_DB_NAME}.LIDER`)
 export class Lider {
 

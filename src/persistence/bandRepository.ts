@@ -1,9 +1,10 @@
-import { Banda } from "../domain/Banda";
+import { BandRequestDto } from "../controllers/dto/bandRequestDto";
+import { Banda } from "../domain/banda";
 
 export interface BandRepository {
     getBands() : Promise<Banda[]>;
-    getBandById(bandId: number) : Promise<Banda>;
-    updateBand(bandId: number, band: Banda) : Promise<boolean>;
-    storeBand(band: Banda) : Promise<Banda>;
+    getBandById(bandId: number) : Promise<Banda | undefined>;
+    updateBand(bandId: number, band: BandRequestDto) : Promise<boolean>;
+    storeBand(band: BandRequestDto) : Promise<Banda>;
     deleteBand(bandId: number) : Promise<boolean>;
 }

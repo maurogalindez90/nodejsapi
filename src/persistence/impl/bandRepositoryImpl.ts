@@ -1,4 +1,4 @@
-import { Banda } from '../../domain/Banda';
+import { Banda } from '../../domain/banda';
 import { BandRepository } from '../bandRepository';
 import { SqlClient } from '../client/sqlClient';
 
@@ -7,9 +7,7 @@ export class BandRepositoryImpl implements BandRepository {
     constructor (private readonly sqlClientBanda: SqlClient, private readonly sqlClientLider: SqlClient) {}
 
     public getBands = async () => {
-        const bands = await this.sqlClientBanda.findAll();
-        console.log(JSON.stringify(bands));
-        return bands;
+        return await this.sqlClientBanda.findAll();
     }
 
     public getBandById = async (bandId: number) => {

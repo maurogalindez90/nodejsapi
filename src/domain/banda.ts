@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
-import { Lider } from "./Lider";
+import { Lider } from "./lider";
 
 @Entity(`${process.env.ARQ_DB_NAME}.BANDA`)
 export class Banda {

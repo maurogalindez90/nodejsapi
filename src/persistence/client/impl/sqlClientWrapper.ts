@@ -14,14 +14,6 @@ export class SqlClientWrapper implements SqlClient {
         return await query.getMany();
     }
 
-    public findPaginated = async () => {
-        const entityRepository = await Repository.getRepository(this.entity);
-        let query = entityRepository.createQueryBuilder(this.entity);
-        query = QueryBuilder.buildQuery(this.entity, query);
-        query = query.limit()
-        return await query.getManyAndCount();
-    }
-
     public findById = async (id: number) => {
         const entityRepository = await Repository.getRepository(this.entity);
         let query = entityRepository.createQueryBuilder(this.entity);

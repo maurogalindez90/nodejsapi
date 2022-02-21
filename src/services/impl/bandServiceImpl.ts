@@ -1,8 +1,8 @@
 import { BandRepository } from "../../persistence/bandRepository";
 import { BandService } from "../bandService";
-import { Banda } from "../../domain/Banda";
 import { NotFoundEntityError } from "../../errors/notFoundEntityError";
 import { BandValidation } from "../validations/bandValidation";
+import { BandRequestDto } from "../../controllers/dto/bandRequestDto";
 
 export class BandServiceImpl implements BandService {
 
@@ -22,7 +22,7 @@ export class BandServiceImpl implements BandService {
         }
     }
 
-    public updateBand = async (bandId: number, band: Banda) => {
+    public updateBand = async (bandId: number, band: BandRequestDto) => {
         if (BandValidation.validateBandUpdate(band)) {
             const response = await this.bandRepository.updateBand(bandId, band);
             if (!response) throw new NotFoundEntityError(bandId, 'banda');
@@ -30,9 +30,12 @@ export class BandServiceImpl implements BandService {
     }
 
     
-    public storeBand = async (band: Banda) => {
+    public storeBand = async (band: BandRequestDto) => {
+        console.log(`the bandRequestDto band that gets passed as a parameter for the service is: `, band)
         if (BandValidation.validateBandStore(band)) {
-            return await this.bandRepository.storeBand(band);
+            const storedBand =  await this.bandRepository.storeBand(band);
+            console.log(`stored band is: `, storedBand)
+            return storedBand;
         }
     }
 

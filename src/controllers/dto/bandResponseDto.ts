@@ -1,5 +1,5 @@
-import { Banda } from "../../domain/Banda";
-import { Lider } from "../../domain/Lider";
+import { Banda } from "../../domain/banda";
+import { Lider } from "../../domain/lider";
 
 export class BandResponseDto {
     
