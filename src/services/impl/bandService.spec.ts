@@ -26,7 +26,7 @@ describe ('Get bands', () => {
   });
 
 it('error', async () => {
-  const expectedError = new Error("error del repository");
+  const expectedError = new Error("Repository error");
 
   const bandService = new BandServiceImpl({
     getBands: jest.fn(async () => {
@@ -161,5 +161,38 @@ describe ('Store band', () => {
     await expect(bandService.storeBand(bandRequestDtoMockShortPassword))
       .rejects
       .toThrowError(expectedError);
+  });
+  
+  describe ('Delete band', () => {
+    it('success', async () => {
+      const bandService = new BandServiceImpl({
+        getBands: jest.fn(),
+        getBandById : jest.fn(),
+        updateBand : jest.fn(),
+        deleteBand : jest.fn(async () => true).mockName('deleteBand'),
+        storeBand : jest.fn()
+      });
+      
+      const deleteBand = jest.spyOn(bandService, 'deleteBand')
+      bandService.deleteBand(1)
+      expect(deleteBand).toHaveBeenCalledTimes(1);
+      expect(deleteBand).toHaveBeenCalledWith(1);
+    });
+    
+    it('Not found error', async () => {
+      const expectedError = new NotFoundEntityError(99, 'band');
+  
+      const bandService = new BandServiceImpl({
+        getBands: jest.fn(),
+        getBandById : jest.fn(),
+        updateBand : jest.fn(),
+        deleteBand : jest.fn(async () => false),
+        storeBand : jest.fn()
+      });
+  
+      await expect(bandService.getBandById(99))
+        .rejects
+        .toThrowError(expectedError);
+    });
   });
 });
